@@ -30,7 +30,9 @@ classifiers = [
     'Operating System :: Unix'
 ]
 
-dependencies = []
+dependencies = [
+    "pyparsing>=3.0.0",
+]
 
 [project.optional-dependencies]
 dev = [
