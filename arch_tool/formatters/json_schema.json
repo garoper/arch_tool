@@ -1,0 +1,312 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://example.com/requirements.schema.json",
+    "title": "Requirements Schema",
+    "description": "Schema for requirements and their metadata including features, issues, and their relationships",
+    "$ref": "#/$defs/root",
+    "$defs": {
+        "grouping": {
+            "type": "object",
+            "description": "A group of related requirements, features, or issues",
+            "required": [
+                "id",
+                "title",
+                "type",
+                "children"
+            ],
+            "allOf": [
+                {
+                    "$ref": "#/$defs/entity"
+                },
+                {
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "grouping",
+                            "description": "Type identifier for groups"
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        },
+        "requirement": {
+            "type": "object",
+            "description": "A specific requirement that can be related to features or issues",
+            "required": [
+                "id",
+                "title",
+                "type",
+                "description",
+                "priority"
+            ],
+            "allOf": [
+                {
+                    "$ref": "#/$defs/entity"
+                },
+                {
+                    "properties": {
+                        "priority": {
+                            "type": "string",
+                            "enum": [
+                                "MUST",
+                                "SHOULD",
+                                "COULD",
+                                "WONT",
+                                "UNSPECIFIED"
+                            ],
+                            "description": "Priority level of the requirement following MoSCoW method"
+                        },
+                        "type": {
+                            "type": "string",
+                            "const": "requirement",
+                            "description": "Type identifier for requirements"
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        },
+        "feature": {
+            "type": "object",
+            "description": "A feature that can be related to requirements",
+            "required": [
+                "id",
+                "title",
+                "type",
+                "description"
+            ],
+            "allOf": [
+                {
+                    "$ref": "#/$defs/entity"
+                },
+                {
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "feature",
+                            "description": "Type identifier for features"
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        },
+        "issue": {
+            "type": "object",
+            "description": "An issue that can be related to requirements",
+            "required": [
+                "id",
+                "title",
+                "type",
+                "description"
+            ],
+            "allOf": [
+                {
+                    "$ref": "#/$defs/entity"
+                },
+                {
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "issue",
+                            "description": "Type identifier for issues"
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        },
+        "root": {
+            "type": "object",
+            "description": "The root object containing all requirements, features, issues, and their relationships",
+            "required": [
+                "id",
+                "type",
+                "children"
+            ],
+            "allOf": [
+                {
+                    "$ref": "#/$defs/entity"
+                },
+                {
+                    "properties": {
+                        "relations": {
+                            "type": "array",
+                            "description": "Array of relationships between requirements and features/issues",
+                            "items": {
+                                "$ref": "#/$defs/relation"
+                            }
+                        },
+                        "type": {
+                            "type": "string",
+                            "const": "root",
+                            "description": "The root type identifier"
+                        },
+                        "$schema": {
+                            "type": "string",
+                            "description": "JSON Schema reference URL"
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        },
+        "component": {
+            "type": "object",
+            "description": "A system component that can be related to requirements",
+            "required": [
+                "id",
+                "title",
+                "type",
+                "description"
+            ],
+            "allOf": [
+                {
+                    "$ref": "#/$defs/entity"
+                },
+                {
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "component",
+                                "system",
+                                "database"
+                            ],
+                            "description": "Type identifier for components"
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        },
+        "entity": {
+            "type": "object",
+            "description": "A feature or issue that can be related to requirements",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "comment": {
+                    "type": "string",
+                    "description": "Optional comment about the entity"
+                },
+                "id": {
+                    "type": "string",
+                    "pattern": "^[\\.-_\\w]+$",
+                    "description": "Unique identifier (e.g., variants_database, pricing_engine)"
+                },
+                "title": {
+                    "type": "string",
+                    "maxLength": 64,
+                    "description": "Short title or summary of the feature/issue"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type of the entity (GROUP, REQUIREMENT, SYSTEM, COMPONENT, DATABASE, FEATURE, or ISSUE)"
+                },
+                "children": {
+                    "type": "array",
+                    "description": "Array of elements (if any)",
+                    "items": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/$defs/requirement"
+                            },
+                            {
+                                "$ref": "#/$defs/grouping"
+                            },
+                            {
+                                "$ref": "#/$defs/issue"
+                            },
+                            {
+                                "$ref": "#/$defs/feature"
+                            },
+                            {
+                                "$ref": "#/$defs/component"
+                            }
+                        ]
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "description": "Optional tags for categorizing the entity",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Detailed description of the requirement, feature or issue"
+                },
+                "metadata": {
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            }
+        },
+        "relation": {
+            "type": "object",
+            "description": "A relationship between a requirement and a feature/issue",
+            "required": [
+                "src",
+                "dst",
+                "type"
+            ],
+            "properties": {
+                "comment": {
+                    "type": "string",
+                    "description": "Optional comment about the relationship"
+                },
+                "src": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ],
+                    "description": "Source identifier - can be a requirement ID (e.g., C101.1) or entity ID (e.g., no_leading_system) or an array of such IDs"
+                },
+                "dst": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    ],
+                    "description": "Target identifier - can be a requirement ID or entity ID or an array of such IDs"
+                },
+                "tags": {
+                    "type": "array",
+                    "description": "Optional tags for categorizing the relationship",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "delivered by",
+                        "impacts",
+                        "depends on",
+                        "related to",
+                        "in concert with"
+                    ],
+                    "description": "Type of relationship between the entities"
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+}

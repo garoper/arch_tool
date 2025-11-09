@@ -1,0 +1,36 @@
+{
+    "markdown.marp.themes": [
+        "theme/theme.css"
+    ],
+    "markdown-pdf.plantumlServer": "http://localhost:8008",
+    "plantuml.exportFormat": "svg",
+    "plantuml.exportIncludeFolderHeirarchy": false,
+    "plantuml.exportSubFolder": false,
+    "plantuml.render": "PlantUMLServer",
+    "plantuml.server": "http://localhost:8008",
+    "markdown-pdf.plantumlCloseMarker": "```",
+    "markdown-pdf.plantumlOpenMarker": "```plantuml",
+    "plantuml.lintDiagramNoName": false,
+    "markdown.marp.html": "all",
+    "plantuml.exportOutDir": "architecture_information",
+    "dataWrangler.outputRenderer.enabledTypes": {
+        "numpy.ndarray": true,
+        "builtins.list": true,
+        "builtins.dict": true
+    },
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./arch_tool",
+        "-p",
+        "test*.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "python.terminal.useEnvFile": false,
+    "python-env.workspaceSearchPaths": [
+        ".venv"
+    ],
+    "python.useEnvironmentsExtension": true,
+    "python.testing.autoTestDiscoverOnSavePattern": "arch_tool/**/*.py"
+}
