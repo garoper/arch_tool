@@ -133,8 +133,8 @@ class TestC4PlantUMLGeneration(unittest.TestCase):
         )
         plantuml_relation = self.formatter._format_relation(relation)
         expected = [
-            'Rel("C101.1", "C101.5", "depends on", $tags="dependency")',
-            'Rel(C101.1, C101.5, "depends on", $tags="dependency")',
+            'Rel("C101.1", "C101.5", "depends on", $tags="dependency", $link="{C101.1 depends on C101.5}")',
+            'Rel(C101.1, C101.5, "depends on", $tags="dependency", $link="{C101.1 depends on C101.5}")',
         ]
         self.assertIn(plantuml_relation, expected)
 
@@ -324,7 +324,7 @@ class TestPlantUMLParsing(unittest.TestCase):
         self.assertIn("target costs", node.description)
         self.assertSetEqual(set(node.tags), {"must", "requirement"})
 
-    def test_format_relation(self):
+    def test_parse_relation(self):
         """Test formatting a relation to PlantUML C4 syntax."""
         from arch_tool.relation import Relation
 
@@ -339,8 +339,8 @@ class TestPlantUMLParsing(unittest.TestCase):
         plantuml_relation = self.formatter._format_relation(relation)
 
         expected = [
-            'Rel("C101.1", "C101.5", "depends on", $tags="dependency")',
-            'Rel(C101.1, C101.5, "depends on", $tags="dependency")',
+            'Rel("C101.1", "C101.5", "depends on", $tags="dependency", $link="{C101.1 depends on C101.5}")',
+            'Rel(C101.1, C101.5, "depends on", $tags="dependency", $link="{C101.1 depends on C101.5}")',
         ]
         self.assertIn(plantuml_relation, expected)
 
