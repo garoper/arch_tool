@@ -32,6 +32,7 @@ classifiers = [
 
 dependencies = [
     "pyparsing>=3.0.0",
+    "diagrams>=0.23.0"  
 ]
 
 [project.optional-dependencies]
