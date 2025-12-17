@@ -300,6 +300,8 @@
                         "delivered by",
                         "impacts",
                         "depends on",
+                        "uses",
+                        "blocks",
                         "related to",
                         "in concert with"
                     ],
