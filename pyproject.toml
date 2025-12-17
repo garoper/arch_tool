@@ -50,6 +50,9 @@ Issues = "https://github.com/garoper/arch_tool/issues"
 include = ["arch_tool*"]
 exclude = ["tests*"]
 
+[tool.setuptools.package-data]
+arch_tool = ["formatters/*.json"]
+
 [tool.pytest.ini_options]
 testpaths = ["arch_tool/tests", "arch_tool/formatters/tests", "arch_tool/view/tests"]
 python_files = ["test_*.py"]
