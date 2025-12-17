@@ -50,6 +50,9 @@ Issues = "https://github.com/garoper/arch_tool/issues"
 include = ["arch_tool*"]
 exclude = ["tests*"]
 
+[tool.setuptools]
+include-package-data = true
+
 [tool.setuptools.package-data]
 arch_tool = ["formatters/*.json"]
 
