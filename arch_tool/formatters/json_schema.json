@@ -254,6 +254,9 @@
                             },
                             {
                                 "$ref": "#/$defs/component"
+                            },
+                            {
+                                "$ref": "#/$defs/role"
                             }
                         ]
                     }
