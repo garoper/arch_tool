@@ -34,7 +34,6 @@ import base64
 import hashlib
 import requests
 
-
 VIS_NETWORK_SCRIPT_URL = (
     "https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
 )
@@ -372,7 +371,7 @@ DEFAULT_FONT_CONFIG: FontConfig = {
         "size": 9,
         "vadjust": 0,
     },
-    "boldital" : {
+    "boldital": {
         "size": 14,
         "color": "#030054",
         "mod": "bold italic",
@@ -393,6 +392,8 @@ DEFAULT_TYPE_PROPERTIES: Dict[str, NodeConfig] = {
     "database": create_node_template(border_width=1.0, shape="database"),
     "grouping": create_node_template(border_width=2.0, shape="box"),
     "person": create_node_template(border_width=1.0, shape="ellipse"),
+    "role": create_node_template(border_width=1.0, shape="ellipse"),
+    "business_function": create_node_template(border_width=1.0, shape="ellipse"),
     "issue": create_node_template(border_width=1.0, shape="box"),
     "feature": create_node_template(border_width=1.0, shape="box"),
 }
@@ -442,20 +443,22 @@ class VisJSFormatter:
             "locale": locale,
             "clickToUse": click_to_use,
             "layout": layout or {},
-            "interaction": interaction or {
+            "interaction": interaction
+            or {
                 "hover": True,
                 "multiselect": False,
             },
             "groups": groups or {},
             "physics": physics or {},
-            "nodes": nodes or {
+            "nodes": nodes
+            or {
                 "font": DEFAULT_FONT_CONFIG,
                 "margin": {
                     "bottom": 20,
                     "top": 10,
                     "left": 10,
                     "right": 10,
-                }
+                },
             },
             "edges": edges or {},
         }
@@ -467,7 +470,7 @@ class VisJSFormatter:
 
     def __format_label(self, node: Any, metadata: Dict[str, Any]) -> str | None:
         header = safe_get(node, ["title", "id"], "", override=metadata)
-        if metadata and 'url' in metadata or 'link' in metadata:
+        if metadata and "url" in metadata or "link" in metadata:
             header = f"_{header}_"
         subtitle = safe_get(node, "technology", "foo", override=metadata)
         subtitle = f"\n`[{subtitle}]`" if subtitle else ""

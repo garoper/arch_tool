@@ -216,6 +216,8 @@ DEFAULT_TYPE_MAP: Dict[str, str] = {
     "database": "ContainerDb",
     "grouping": "Boundary",
     "person": "Person",
+    "role": "Person",
+    "business_function": "Person",
     "issue": "Component",
     "feature": "Component",
 }
@@ -483,7 +485,9 @@ class C4Formatter:
         direction = get_attribute(relation, "direction", "")
         sprite = get_attribute(relation, "sprite", "")
         link = get_attribute(relation, "link", "")
-        tooltip = get_attribute(relation, "tooltip", get_attribute(relation, "comment", None))
+        tooltip = get_attribute(
+            relation, "tooltip", get_attribute(relation, "comment", None)
+        )
         if tooltip:
             link = f"{link}{{{tooltip}}}"
 

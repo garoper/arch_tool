@@ -35,6 +35,12 @@ class TestRequirement(unittest.TestCase):
         )
         self.assertIn("must", req.tags)
 
+    def test_requirement_can_set_title(self):
+        """Test that requirement can set title."""
+        req = Requirement(id="REQ-001", title="Test Requirement")
+        req.title = "New Title"
+        self.assertEqual(req.title, "New Title")
+
     def test_requirement_with_metadata(self):
         """Test requirement creation with metadata."""
         metadata = {

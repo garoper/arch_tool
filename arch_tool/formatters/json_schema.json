@@ -92,6 +92,35 @@
             ],
             "unevaluatedProperties": false
         },
+        "role": {
+            "type": "object",
+            "description": "A role that can be related to requirements or use systems",
+            "required": [
+                "id",
+                "title",
+                "type",
+                "description"
+            ],
+            "allOf": [
+                {
+                    "$ref": "#/$defs/entity"
+                },
+                {
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "person",
+                                "role",
+                                "business_function"
+                            ],
+                            "description": "Type identifier for role"
+                        }
+                    }
+                }
+            ],
+            "unevaluatedProperties": false
+        },
         "issue": {
             "type": "object",
             "description": "An issue that can be related to requirements",

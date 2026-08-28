@@ -45,7 +45,6 @@ def set_index(index: Dict[Any, List[Node]], node: Node, prop_value: Any) -> None
     )
 
 
-
 class GraphIndex:
     """Class representing a graph index for efficient node lookups."""
 
@@ -70,16 +69,14 @@ class GraphIndex:
                 continue
             parent = path[-2]
             child = path[-1]
-            relation = Relation(
-                type="parent of",
-                src=parent.id,
-                dst=child.id
-            )
+            relation = Relation(type="parent of", src=parent.id, dst=child.id)
             yield relation
 
     def lookup_relations(
         self,
-        filter: Iterable[str | Relation | Dict[str, Any]] | str | Relation | Dict[str, Any] = None,
+        filter: (
+            Iterable[str | Relation | Dict[str, Any]] | str | Relation | Dict[str, Any]
+        ) = None,
         include_implied: bool = True,
     ) -> Iterable[Relation]:
         """Lookup relations by a specific property value.
@@ -90,13 +87,16 @@ class GraphIndex:
         Returns:
             An iterable of matching relations.
         """
-        all_relations = chain(
-            self.__relations, self._parent_child_relations()) if include_implied else self.__relations
+        all_relations = (
+            chain(self.__relations, self._parent_child_relations())
+            if include_implied
+            else self.__relations
+        )
 
         if filter is None:
             for relation in all_relations:
                 yield relation
-                
+
         elif isinstance(filter, str):
             for relation in all_relations:
                 if relation.id == filter:
@@ -133,7 +133,9 @@ class GraphIndex:
 
     def lookup_nodes(
         self,
-        filter: Iterable[str | Node | Dict[str, Any]] | str | Node | Dict[str, Any] = None,
+        filter: (
+            Iterable[str | Node | Dict[str, Any]] | str | Node | Dict[str, Any]
+        ) = None,
     ) -> Iterable[Node]:
         """Lookup nodes by a specific property value.
 
@@ -158,7 +160,9 @@ class GraphIndex:
         elif isinstance(filter, dict):
             matches: Dict[str, int] = {}
             for key, value in filter.items():
-                index = self.__node_indices.get(key, self.build_node_index(key) or self.__node_indices[key])
+                index = self.__node_indices.get(
+                    key, self.build_node_index(key) or self.__node_indices[key]
+                )
 
                 if isinstance(value, (str, int, float, bool)):
                     for node in index.get(value, []):

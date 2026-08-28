@@ -5,9 +5,13 @@ JSON formatter for architecture tool.
 import json
 from typing import Any, Callable, Dict, Iterable, Optional, TextIO
 
+from arch_tool import Node
+
 
 class JSONFormatter:
-    def __init__(self, node_factory: Optional[Callable[[Dict[str, Any]], Any]] = None):
+    def __init__(
+        self, node_factory: Optional[Callable[[Dict[str, Any]], Any]] = Node.from_dict
+    ):
         self._node_factory = node_factory
 
     def format(self, data: Dict[str, Any] | Iterable[Dict[str, Any]]) -> str:

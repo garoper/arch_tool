@@ -1,0 +1,113 @@
+{
+    "$schema": "../json_schema.json",
+    "id": "client_architecture",
+    "type": "root",
+    "title": "Client systems architecture",
+    "description": "Architecture information for Client systems",
+    "children": [
+        {
+            "id": "configit_systems",
+            "type": "grouping",
+            "title": "Configit Systems",
+            "description": "A list of systems, owned by Configit",
+            "children": [
+                {
+                    "id": "ace",
+                    "type": "system",
+                    "title": "Configit Ace",
+                    "description": "Configit Ace is a product configuration platform that enables businesses to create, manage, and deliver complex product configurations across various sales channels.",
+                    "children": [
+                        {
+                            "id": "ace_configure",
+                            "type": "component",
+                            "title": "Ace Configure",
+                            "description": "Ace Configure is the is the configuration module that exposes the configure API."
+                        },
+                        {
+                            "id": "ace_model", 
+                            "type": "component",
+                            "title": "Ace Model",
+                            "description": "Ace Model is the model management module that allows authoring and management of product models."
+                        }
+                    ]
+                },
+                {
+                    "id": "ace_configurator",
+                    "type": "system",
+                    "title": "Ace Configurator",
+                    "description": "Ace Configurator is a module within the Configit Ace platform that focuses on the configuration aspect, allowing users to define and manage product configurations effectively."
+                },
+                {
+                    "id": "ace_thread",
+                    "type": "database",
+                    "title": "Configit Ace Thread",
+                    "description": "Configuration storage integrated with Ace Configure that allowes storing and retrieving configurations attached to session keys."
+                }
+            ]
+        },
+        {
+            "id": "client_systems",
+            "type": "grouping",
+            "title": "Client Systems",
+            "description": "A list of systems, owned by Client",
+            "children": [
+                {
+                    "id": "client_page",
+                    "type": "system",
+                    "title": "Client Configurator Page",
+                    "description": "A Web page that allows users to configure Client services using the Configit Ace platform. It creates configuration sessions in Ace Configurator and interacts with Ace Thread to retrieve configurations."
+                },
+                {
+                    "id": "cw",
+                    "type": "system",
+                    "title": "CW",
+                    "description": "An unknown system owned by Client, that may consume the Ace Configure API."
+                }
+            ]
+        }
+    ],
+    "relations": [
+        {
+            "src": "client_page",
+            "dst": "ace_configurator",
+            "type": "uses",
+            "comment": "The Client Configurator page creates Configuration sessions in Ace Configurator and stores the session key."
+        },
+        {
+            "src": "client_page",
+            "dst": "ace_thread",
+            "type": "uses",
+            "comment": "The Client Configurator page retrieves configurations from Ace Thread using the session key."
+        },
+        {
+            "src": "client_page",
+            "dst": "ace_configure",
+            "type": "uses",
+            "comment": "The Client Configurator page may use the Ace Configure API to retrieve view information such as properties."
+        },
+        {
+            "src": "cw",
+            "dst": "ace_configure",
+            "type": "uses",
+            "comment": "CW may consume the Ace Configure API to perform configurations."
+        },
+        {
+            "src": "ace_configurator",
+            "dst": "ace_configure",
+            "type": "uses",
+            "comment": "Ace Configurator uses the Ace Configure component to handle configuration requests."
+        },
+        {
+            "src": "ace_configurator",
+            "dst": "ace_thread",
+            "type": "uses",
+            "comment": "Ace Configurator uses the Ace Thread component to store and retrieve configurations."
+        },
+        {
+            "src": "ace_configure",
+            "dst": "ace_model",
+            "type": "related to",
+            "comment": "Ace Configure relies on Ace Model for product models."
+        }
+    ]
+}

@@ -25,6 +25,8 @@ DEFAULT_TYPE_MAP = {
     "database": c4.Database,
     "grouping": c4.SystemBoundary,
     "person": c4.Person,
+    "role": c4.Person,
+    "business_function": c4.Person,
     "issue": c4.Container,
     "feature": c4.Container,
 }
@@ -81,7 +83,9 @@ class C4DiagramFormatter:
             "fontname": get_attribute(node, "fontname", None),
             "fontsize": get_attribute(node, "fontsize", None),
             "fixedsize": get_attribute(node, "fixedsize", None),
-            "tooltip": get_attribute(node, "tooltip", get_attribute(node, "comment", None)),
+            "tooltip": get_attribute(
+                node, "tooltip", get_attribute(node, "comment", None)
+            ),
             "URL": get_attribute(node, "URL", get_attribute(node, "link", None)),
         }
 
@@ -98,7 +102,6 @@ class C4DiagramFormatter:
         )
         node_cache[node_id] = diagram_node
 
-
         if hasattr(node, "children"):
             if isinstance(diagram_node, c4.Cluster):
                 with diagram_node:
@@ -109,12 +112,10 @@ class C4DiagramFormatter:
                 for child in node.children:
                     self._format_node(child, node_cache, node_attr)
                     if hasattr(child, "id"):
-                        self._format_relation({
-                            "src": node_id,
-                            "dst": child.id,
-                            "type": "parent of"
-                        }, node_cache)
-
+                        self._format_relation(
+                            {"src": node_id, "dst": child.id, "type": "parent of"},
+                            node_cache,
+                        )
 
     def _format_relation(
         self, relation: Any, node_cache: dict[str, Any], edge_attr: dict[str, Any] = {}
@@ -141,7 +142,9 @@ class C4DiagramFormatter:
             "fontcolor": get_attribute(relation, "fontcolor", None),
             "fontsize": get_attribute(relation, "fontsize", None),
             "fontname": get_attribute(relation, "fontname", None),
-            "tooltip": get_attribute(relation, "tooltip", get_attribute(relation, "comment", None)),
+            "tooltip": get_attribute(
+                relation, "tooltip", get_attribute(relation, "comment", None)
+            ),
             "URL": get_attribute(
                 relation, "URL", get_attribute(relation, "link", None)
             ),

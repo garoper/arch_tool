@@ -14,7 +14,7 @@ class Graph(Container):
         children: Optional[Iterable[Node]] = None,
         relations: Optional[Iterable[Dict[str, Any] | Relation]] = None,
         tags: Optional[Iterable[str]] = None,
-        comment: Optional[str] = None
+        comment: Optional[str] = None,
     ) -> None:
         """Initialize a Graph containing all requirements, features, issues, and their relationships.
 
@@ -36,7 +36,12 @@ class Graph(Container):
                     self.__relations.extend(Relation.from_dict(rel))
 
         super().__init__(
-            id=id, type=type, metadata=metadata, children=children, tags=tags, comment=comment
+            id=id,
+            type=type,
+            metadata=metadata,
+            children=children,
+            tags=tags,
+            comment=comment,
         )
 
     @property
@@ -103,7 +108,7 @@ class Graph(Container):
                     relation.comment = comment
 
                 if tags:
-                    relation.set_tags(tags)
+                    relation.tags = tags
 
                 self.__relations.append(relation)
 
