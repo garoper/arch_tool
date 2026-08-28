@@ -8,10 +8,11 @@ from .issue import Issue
 from .grouping import Grouping
 from .component import Component, System, Database
 from .relation import Relation
+from .feature import Feature
+from .issue import Issue
 from .graph import Graph
 from .view import GraphRelation, GraphNode, GraphView
 from .formatters import C4Formatter, JSONFormatter, C4DiagramFormatter
-
 
 """
 arch_tool package initializer.
