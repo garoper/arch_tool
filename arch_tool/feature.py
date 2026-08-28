@@ -13,7 +13,7 @@ class Feature(Container):
         metadata: Optional[Dict[str, Any]] = None,
         children: Optional[Dict[str, Any]] = None,
         tags: Optional[Iterable[str]] = None,
-        comment: Optional[str] = None
+        comment: Optional[str] = None,
     ) -> None:
         """Initialize a Feature with a unique identifier.
 
@@ -30,15 +30,14 @@ class Feature(Container):
         self.__title = title
         self.__description = description
 
-        super().__init__(id=id, type=type, metadata=metadata, children=children, tags=tags, comment=comment)
-
-    def set_title(self, title: str) -> None:
-        """Set the title of the Feature."""
-        self.__title = title
-        
-    def set_description(self, description: str) -> None:
-        """Set the description of the Feature."""
-        self.__description = description
+        super().__init__(
+            id=id,
+            type=type,
+            metadata=metadata,
+            children=children,
+            tags=tags,
+            comment=comment,
+        )
 
     @property
     def title(self) -> str:
@@ -49,6 +48,16 @@ class Feature(Container):
     def description(self) -> str:
         """Get the description of the Feature."""
         return self.__description
+
+    @title.setter
+    def title(self, title: str) -> None:
+        """Set the title of the Feature."""
+        self.__title = title
+
+    @description.setter
+    def description(self, description: str) -> None:
+        """Set the description of the Feature."""
+        self.__description = description
 
 
 Node.register_type(Feature, "feature")

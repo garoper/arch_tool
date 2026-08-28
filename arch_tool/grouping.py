@@ -12,7 +12,7 @@ class Grouping(Container):
         metadata: Optional[Dict[str, Any]] = None,
         children: Optional[Dict[str, Any]] = None,
         tags: Optional[Iterable[str]] = None,
-        comment: Optional[str] = None
+        comment: Optional[str] = None,
     ) -> None:
         """Initialize a Grouping (group of related requirements, features, or issues).
 
@@ -27,16 +27,24 @@ class Grouping(Container):
 
         self.__title = title
 
-        super().__init__(id=id, type=type, metadata=metadata, children=children, tags=tags, comment=comment)
-
-    def set_title(self, title: str) -> None:
-        """Set the title of the Grouping."""
-        self.__title = title
+        super().__init__(
+            id=id,
+            type=type,
+            metadata=metadata,
+            children=children,
+            tags=tags,
+            comment=comment,
+        )
 
     @property
     def title(self) -> str:
         """Get the title of the Grouping."""
         return self.__title
+
+    @title.setter
+    def title(self, title: str) -> None:
+        """Set the title of the Grouping."""
+        self.__title = title
 
 
 Node.register_type(Grouping, "grouping")

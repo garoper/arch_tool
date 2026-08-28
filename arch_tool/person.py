@@ -1,21 +1,26 @@
 from arch_tool.node import Node
+from arch_tool.container import Container
 from typing import Any, Dict, Iterable, Optional
 
-class Person(Node):
+
+class Person(Container):
     """A person node in the architecture diagram."""
 
-    def __init__(self,  id: str,
+    def __init__(
+        self,
+        id: str,
         name: str,
         email: str = "",
-        orgUnit: str = "",
-        jobTitle: str = "",
+        org_unit: str = "",
+        job_title: str = "",
         description: str = "",
         ratings: Optional[Dict[str, int]] = None,
         type: str = "person",
         metadata: Optional[Dict[str, Any]] = None,
         children: Optional[Dict[str, Any]] = None,
         tags: Optional[Iterable[str]] = None,
-        comment: Optional[str] = None) -> None:
+        comment: Optional[str] = None,
+    ) -> None:
         """Initialize a Person with a unique identifier.
 
         Args:
@@ -33,24 +38,27 @@ class Person(Node):
         """
 
         self.__name = name
-        self.__org_unit = orgUnit
-        self.__jobTitle = jobTitle
+        self.__org_unit = org_unit
+        self.__jobTitle = job_title
         self.__description = description
         if metadata is None:
             metadata = {}
         if email:
-            metadata["email"] = email            
+            metadata["email"] = email
         if ratings is not None:
             metadata["ratings"] = ratings
-        else: 
+        else:
             metadata["ratings"] = {}
 
         Node.__init__(
-            self, 
-            id=id, 
-            name=name,
-            type=type, metadata=metadata, children=children, tags=tags, comment=comment)
-        
+            self,
+            id=id,
+            type=type,
+            metadata=metadata,
+            tags=tags,
+            comment=comment,
+        )
+
     @property
     def title(self) -> str:
         """Get the title for the node."""
@@ -67,40 +75,44 @@ class Person(Node):
     def name(self) -> str:
         """Get the full name of the person."""
         return self.__name
-    
+
     @property
     def email(self) -> str:
         """Get the email address of the person."""
         return self.metadata.get("email", "")
-    
+
     @property
     def orgUnit(self) -> str:
         """Get the organizational unit of the person."""
         return self.__org_unit
-    
+
     @property
     def jobTitle(self) -> str:
         """Get the job title of the person."""
         return self.__jobTitle
-    
+
     @property
     def description(self) -> str:
         """Get the description of the person."""
         return self.__description
 
-    def set_description(self, description: str) -> None:
+    @description.setter
+    def description(self, description: str) -> None:
         """Set the description of the person."""
         self.__description = description
 
-    def set_job_title(self, jobTitle: str) -> None:
+    @jobTitle.setter
+    def job_title(self, jobTitle: str) -> None:
         """Set the job title of the person."""
         self.__jobTitle = jobTitle
 
-    def set_org_unit(self, org_unit: str) -> None:
+    @orgUnit.setter
+    def org_unit(self, org_unit: str) -> None:
         """Set the organizational unit of the person."""
         self.__org_unit = org_unit
 
-    def set_email(self, email: str) -> None:
+    @email.setter
+    def email(self, email: str) -> None:
         """Set the email address of the person."""
         self.metadata["email"] = email
 
@@ -109,8 +121,10 @@ class Person(Node):
         """Get the ratings associated with the person."""
         return self.metadata.get("ratings", {})
 
-    def set_ratings(self, ratings: Dict[str, int]) -> None:
+    @ratings.setter
+    def ratings(self, ratings: Dict[str, int]) -> None:
         """Set the ratings associated with the person."""
         self.metadata["ratings"] = ratings
+
 
 Node.register_type("person", Person)

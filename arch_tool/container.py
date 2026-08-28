@@ -10,7 +10,7 @@ class Container(Node):
         metadata: Optional[Dict[str, Any]] = None,
         children: Iterable[Node | Dict[str, Any]] = [],
         tags: Optional[Iterable[str]] = None,
-        comment: Optional[str] = None
+        comment: Optional[str] = None,
     ) -> None:
         """Initialize a Container with a unique identifier."""
         child_list = (
@@ -21,7 +21,9 @@ class Container(Node):
 
         self.__children: Dict[str, Node] = {child.id: child for child in child_list}
 
-        super().__init__(id=id, type=type, metadata=metadata, tags=tags, comment=comment)
+        super().__init__(
+            id=id, type=type, metadata=metadata, tags=tags, comment=comment
+        )
 
     def add_child(self, child: Node | Dict[str, Any]) -> None:
         """Add a child Node to the Container."""
@@ -37,7 +39,7 @@ class Container(Node):
     def get_child(self, child_id: str) -> Optional[Node]:
         """Get a child Node by its ID."""
         return self.__children.get(child_id, None)
-    
+
     def has_child(self, child_id: str) -> bool:
         """Check if a child Node with the given ID exists in the Container."""
         return child_id in self.__children
@@ -49,14 +51,14 @@ class Container(Node):
 
     def to_dict(self) -> Dict[str, Any]:
         """Serialize all properties of the Container to a dictionary.
-        
+
         Overrides Node.to_dict() to properly handle the children property
         by converting dict_values to a list for JSON serialization.
         """
         result = super().to_dict()
         # Convert children from dict_values to list of dictionaries
-        if 'children' in result:
-            result['children'] = [child.to_dict() for child in self.children]
+        if "children" in result:
+            result["children"] = [child.to_dict() for child in self.children]
         return result
 
     def traverse_nodes(
@@ -84,5 +86,6 @@ class Container(Node):
                 yield from Container.traverse_nodes(child, path + (child,))
             else:
                 yield path + (child,)
+
 
 Node.register_type(Container, "container")

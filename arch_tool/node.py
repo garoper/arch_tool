@@ -11,13 +11,18 @@ Nodes can also be visualized in C4 diagrams. Use the C4Formatter class to conver
 import re
 from typing import Iterable, List, Dict, Any, Optional, Set
 import json
+import inspect
+
 
 def convert_generators_to_lists(data: Any) -> Any:
     """convert any generator to a list."""
-    if isinstance(data, Iterable) and not isinstance(data, (dict, list, set, tuple, str, bytes)):
+    if isinstance(data, Iterable) and not isinstance(
+        data, (dict, list, set, tuple, str, bytes)
+    ):
         return [convert_generators_to_lists(item) for item in data]
     else:
         return data
+
 
 def validate_id(id: str) -> None:
     """Validate that the given id is a non-empty string matching the pattern ^[a-zA-Z0-9_.-]+$."""
@@ -31,8 +36,12 @@ class Node:
     __types = {}
 
     def __init__(
-        self, id: str, type: str = "node", metadata: Optional[Dict[str, Any]] = None,
-        tags: Optional[Iterable[str]] = None, comment: Optional[str] = None
+        self,
+        id: str,
+        type: str = "node",
+        metadata: Optional[Dict[str, Any]] = None,
+        tags: Optional[Iterable[str]] = None,
+        comment: Optional[str] = None,
     ) -> None:
         """Initialize a Node with a unique identifier."""
         validate_id(id)
@@ -76,6 +85,11 @@ class Node:
         """The metadata dictionary of the node. Can be used by a user to store custom information about the node."""
         return self.__metadata
 
+    @tags.setter
+    def tags(self, tags: Iterable[str]) -> None:
+        """Set the tags for the relation."""
+        self.__tags = set(tags)
+
     def to_dict(self) -> Dict[str, Any]:
         """Serialize all properties of the Node to a dictionary."""
         ret = {}
@@ -102,27 +116,26 @@ class Node:
 
         # Build constructor arguments
         constructor_args = {
-            "id": data["id"],   
+            "id": data["id"],
             "type": data["type"],
             "metadata": metadata,
         }
-                
+
         # Inspect the constructor to find required parameters
-        # and populate them from data 
-        import inspect
+        # and populate them from data
         sig = inspect.signature(cls.__init__)
         for param_name, _ in sig.parameters.items():
             if param_name == "self" or param_name in constructor_args:
                 continue
-            
+
             # If this parameter is not already set and exists in data, use it
             if param_name in data:
                 constructor_args[param_name] = data[param_name]
-        
+
         for k, v in data.items():
             if k not in constructor_args:
                 metadata[k] = v
-                
+
         return cls(**constructor_args)
 
     def __repr__(self) -> str:
@@ -135,7 +148,7 @@ class Node:
     @staticmethod
     def register_type(type_cls: type, type_name: str) -> None:
         """Register a new node type.
-        
+
         Args:
             type_cls: The class to register
             type_name: The type name string

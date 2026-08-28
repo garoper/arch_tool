@@ -2,6 +2,7 @@ from typing import Any, Dict, Iterable, Optional
 from .node import Node
 from .container import Container
 
+
 class Component(Container):
     def __init__(
         self,
@@ -12,7 +13,7 @@ class Component(Container):
         metadata: Optional[Dict[str, Any]] = None,
         children: Optional[Dict[str, Any]] = None,
         tags: Optional[Iterable[str]] = None,
-        comment: Optional[str] = None
+        comment: Optional[str] = None,
     ) -> None:
         """Initialize a Component with a unique identifier.
 
@@ -29,15 +30,14 @@ class Component(Container):
         self.__title = title
         self.__description = description
 
-        super().__init__(id=id, type=type, metadata=metadata, children=children, tags=tags, comment=comment)
-
-    def set_title(self, title: str) -> None:
-        """Set the title of the Component."""
-        self.__title = title
-
-    def set_description(self, description: str) -> None:
-        """Set the description of the Component."""
-        self.__description = description
+        super().__init__(
+            id=id,
+            type=type,
+            metadata=metadata,
+            children=children,
+            tags=tags,
+            comment=comment,
+        )
 
     @property
     def title(self) -> str:
@@ -48,6 +48,16 @@ class Component(Container):
     def description(self) -> str:
         """Get the description of the Component."""
         return self.__description
+
+    @title.setter
+    def title(self, title: str) -> None:
+        """Set the title of the Component."""
+        self.__title = title
+
+    @description.setter
+    def description(self, description: str) -> None:
+        """Set the description of the Component."""
+        self.__description = description
 
 
 class System(Component):
@@ -73,7 +83,13 @@ class System(Component):
             tags: Optional iterable of tags associated with the system
         """
         super().__init__(
-            id=id, title=title, description=description, type=type, metadata=metadata, children=children, tags=tags
+            id=id,
+            title=title,
+            description=description,
+            type=type,
+            metadata=metadata,
+            children=children,
+            tags=tags,
         )
 
 
@@ -100,7 +116,13 @@ class Database(Component):
             tags: Optional iterable of tags associated with the database
         """
         super().__init__(
-            id=id, title=title, description=description, type=type, metadata=metadata, children=children, tags=tags
+            id=id,
+            title=title,
+            description=description,
+            type=type,
+            metadata=metadata,
+            children=children,
+            tags=tags,
         )
 
 

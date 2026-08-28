@@ -70,15 +70,11 @@ class Relation:
                     tags=data.get("tags", None),
                 )
 
-    def set_tags(self, tags: Iterable[str]) -> None:
-        """Set the tags for the relation."""
-        self.__tags = [tag for tag in tags]
-
     @property
     def id(self) -> str:
         """Get a unique identifier for the relation."""
         return f"{self.__src}--[{self.__type}]-->{self.__dst}"
-    
+
     @property
     def src(self) -> str:
         """Get the source node identifier."""
@@ -103,6 +99,11 @@ class Relation:
     def tags(self) -> List[str]:
         """Get the list of tags."""
         return self.__tags
+
+    @tags.setter
+    def tags(self, tags: Iterable[str]) -> None:
+        """Set the tags for the relation."""
+        self.__tags = [tag for tag in tags]
 
     def __repr__(self):
         return self.id

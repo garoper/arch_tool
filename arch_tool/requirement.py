@@ -16,7 +16,7 @@ class Requirement(Container):
         metadata: Optional[Dict[str, Any]] = None,
         children: Optional[Dict[str, Any]] = None,
         tags: Optional[Iterable[str]] = None,
-        comment: Optional[str] = None
+        comment: Optional[str] = None,
     ) -> None:
         """Initialize a Requirement with a unique identifier.
 
@@ -33,19 +33,14 @@ class Requirement(Container):
         self.__description = description
         self.__priority = priority
 
-        super().__init__(id=id, type=type, metadata=metadata, children=children, tags=tags, comment=comment)
-
-    def set_title(self, title: str) -> None:
-        """Set the title of the Requirement."""
-        self.__title = title
-
-    def set_description(self, description: str) -> None:
-        """Set the description of the Requirement."""
-        self.__description = description
-
-    def set_priority(self, priority: Literal["MUST", "SHOULD", "COULD", "WONT", "UNSPECIFIED"]) -> None:
-        """Set the priority of the Requirement."""
-        self.__priority = priority
+        super().__init__(
+            id=id,
+            type=type,
+            metadata=metadata,
+            children=children,
+            tags=tags,
+            comment=comment,
+        )
 
     @property
     def priority(self) -> Literal["MUST", "SHOULD", "COULD", "WONT", "UNSPECIFIED"]:
@@ -70,5 +65,23 @@ class Requirement(Container):
             priority_tag = self.__priority.lower()
             if not self.has_tag(priority_tag):
                 yield priority_tag
+
+    @title.setter
+    def title(self, title: str) -> None:
+        """Set the title of the Requirement."""
+        self.__title = title
+
+    @description.setter
+    def description(self, description: str) -> None:
+        """Set the description of the Requirement."""
+        self.__description = description
+
+    @priority.setter
+    def priority(
+        self, priority: Literal["MUST", "SHOULD", "COULD", "WONT", "UNSPECIFIED"]
+    ) -> None:
+        """Set the priority of the Requirement."""
+        self.__priority = priority
+
 
 Node.register_type(Requirement, "requirement")
